@@ -77,9 +77,8 @@ function App() {
       }, {});
     });
 
-    const phoneMedia = data
-      .filter((item) => item["Phone Number"] === phone)
-      .filter((item) => item["Media Type"] === "image");
+   const phoneMedia = data.filter((item) => item["Phone Number"] === phone);
+
 
     setMediaFiles(phoneMedia);
     setSelectedMedia(null);
@@ -283,7 +282,7 @@ function App() {
                       </div>
                       <div>
                         <p className="font-medium">
-                          +{selectedMedia["Phone Number"]}
+                          {selectedMedia["Phone Number"]}
                         </p>
                         <p className="text-xs text-gray-500">
                           Today at 12:45 PM
