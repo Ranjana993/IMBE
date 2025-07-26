@@ -11,13 +11,14 @@ function App() {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [error, setError] = useState(null);
   const [csvText, setCsvText] = useState("");
+  const API_SERVER = import.meta.env.VITE_API_SERVER;
 
   const downloadImage = async (mediaId) => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/media/${mediaId}`,
-        { responseType: "blob" }
-      );
+      const response = await axios.get(`${API_SERVER}/api/media/${mediaId}`, {
+        responseType: "blob",
+      });
+
       if (!response.data || !(response.data instanceof Blob)) {
         throw new Error("Invalid response format - expected Blob");
       }
@@ -40,7 +41,7 @@ function App() {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("http://localhost:3000/api/csv")
+      .get(`${API_SERVER}/api/csv`)
       .then((response) => {
         const csvData = response.data;
         setCsvText(csvData);
@@ -77,8 +78,7 @@ function App() {
       }, {});
     });
 
-   const phoneMedia = data.filter((item) => item["Phone Number"] === phone);
-
+    const phoneMedia = data.filter((item) => item["Phone Number"] === phone);
 
     setMediaFiles(phoneMedia);
     setSelectedMedia(null);
