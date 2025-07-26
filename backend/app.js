@@ -1,10 +1,10 @@
 // backend/app.js or server.js
 const express = require("express");
 require("dotenv").config();
+const path = require("path");
 const mediaRouter = require("./route/route");
 const webhookRouter = require("./route/webhookRoutes");
 const csvRouter = require("./route/csvRoutes");
-
 const cors = require("cors");
 
 const app = express();
@@ -13,17 +13,19 @@ app.use(cors()); // Enable CORS for all routes
 // Middleware
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, "../whatsapp-media-viewer/dist")));
 // Routes
 app.use("/api/media", mediaRouter);
 app.use("/webhook", webhookRouter);
 app.use("/api/csv", csvRouter);
+
 // Basic route to show server is running
-app.get("/", (req, res) => {
-  res.send(`
-    <h1>Backend Server is Running</h1>
-    <p>Server is running on port ${PORT}</p>
-  `);
-});
+// app.get("/", (req, res) => {
+//   res.send(`
+//     <h1>Backend Server is Running</h1>
+//     <p>Server is running on port ${PORT}</p>
+//   `);
+// });
 
 // Start server
 app.listen(PORT, () => {
