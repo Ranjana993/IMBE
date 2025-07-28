@@ -86,16 +86,23 @@ function App() {
     setError(null);
   };
 
-  const handleMediaClick = async (media) => {
-    setSelectedMedia(media);
-    setError(null);
-    try {
-      await downloadImage(media["Media ID"]);
-    } catch (err) {
-      console.error("Error handling media click:", err);
-      setError("Failed to load media file");
-    }
-  };
+ const handleMediaClick = async (media) => {
+   if (selectedMedia?.["Media ID"] === media["Media ID"]) {
+     return;
+   }
+
+   setSelectedMedia(media);
+   setError(null);
+   setPreviewUrl(null); // reset previous preview while loading new one
+
+   try {
+     await downloadImage(media["Media ID"]);
+   } catch (err) {
+     console.error("Error handling media click:", err);
+     setError("Failed to load media file");
+   }
+ };
+
 
   const handleDownload = () => {
     if (previewUrl) {
